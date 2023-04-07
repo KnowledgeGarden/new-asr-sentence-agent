@@ -3,6 +3,7 @@ import json
 from antecedents import antecedents
 from predicates import predicates
 from spacy.matcher import PhraseMatcher
+from spacy.matcher import Matcher
 nlp = spacy.load("en_core_web_md")
 import spacy_dbpedia_spotlight
 nlp.add_pipe('dbpedia_spotlight')
@@ -22,14 +23,21 @@ def handleGet(json):
   txt = json['text']
   print(txt)
   doc = nlp(txt)
+
+  jsn = {}
+
   #DBpedia
   dbps = []
   for ent in doc.ents:
-    txt = ent.text 
-    kid = ent.kb_id_
-    dbp = ent._.dbpedia_raw_result['@similarityScore']
-    dbps.append((txt, kid, dbp))
+    jsn = {}
+    jsn['strt'] = ent.text 
+    jsn['kid'] = ent.kb_id_
+    jsn['dbp'] = ent._.dbpedia_raw_result['@similarityScore']
+    dbps.append(jsn)
+
+  print('DBP', dbps)
   #Wikidata
+  # ignoring for now
   
   #wdx = nlx(txt)
   wkds = []
@@ -47,28 +55,64 @@ def handleGet(json):
 
   data = []
   ants = []
-  jsn = {}
-
+ 
   for mid, start, end in antMatches:
+    jsn = {}
     jsn['strt'] = start
     jsn['enx'] = end
-    foo = doc[start:end]
-    jsn['txt'] = str(foo)
+    tok = doc[start]
+    jsn['txt'] = tok.text  #str(foo)
     ants.append(jsn)
-    jsn = {}
+  print('ANT', ants)  
   data.append(ants)
 
   preds = []
   jsn = {}
   for mid, start, end in predMatches:
+    jsn = {}
     jsn['strt'] = start
     jsn['enx'] = end
-    foo = doc[start:end]
-    jsn['txt'] = str(foo)
+    tok = doc[start]
+    jsn['txt'] = tok.text
     preds.append(jsn)
-    jsn = {}
+  print('PRD', preds)
   data.append(preds)
 
-  print("DID: ",data)
-  
-  return {'data':data, 'dbp':dbps, 'wkd':wkds}
+  #Nouns and verbs
+  nmatcher = Matcher(nlp.vocab)
+  nmatcher.add("Nouns", [[{"POS": "NOUN"}]])
+  nns = nmatcher(doc)
+  #print('FOO', nns)
+  nnx = []
+  pnmatcher = Matcher(nlp.vocab)
+  pnmatcher.add("ProperNouns", [[{"POS": "PROPN"}]])
+  pnns = pnmatcher(doc)
+  #print('BAR', pnns)
+  pnnx = []
+  vmatcher = Matcher(nlp.vocab)
+  vmatcher.add("Verbs", [[{"POS": "VERB"}]])
+  vbs = vmatcher(doc)
+  vbx = []
+  #print('BAH', vbs)
+  for mid, start, end in nns:
+    tok = doc[start]
+    jsn = {}
+    jsn['strt'] = start
+    jsn['txt'] = tok.text
+    nnx.append(jsn)
+ # print('NNN', nnx)
+  for mid, start, end in pnns:
+    tok = doc[start]
+    jsn = {}
+    jsn['strt'] = start
+    jsn['txt'] = tok.text
+    pnnx.append(jsn)
+  #print('PNN', pnnx)
+  for mid, start, end in vbs:
+    tok = doc[start]
+    jsn = {}
+    jsn['strt'] = start
+    jsn['txt'] = tok.text
+    vbx.append(jsn)
+  #print('VRB', vbx)
+  return {'data':data, 'dbp':dbps, 'wkd':wkds, 'nns':nnx, 'pnns':pnnx, 'vrbs':vbx}
