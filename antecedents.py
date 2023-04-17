@@ -17,6 +17,7 @@ antecedents = [
   "might", "might not", "is thought to","was thought to",
   "can", "cannot", "can't", "will", "will not","won't",
   "may", "may not", "could", "could not",
-  "is frequently", "are frequently"
+  "is frequently", "are frequently", "has frequently been", "have frequently been",
+  "is frequently", "are freqnently"
 ]
 
