@@ -23,7 +23,6 @@ def handleGet(json):
   txt = json['text']
   print(txt)
   doc = nlp(txt)
-
   jsn = {}
 
   #DBpedia
@@ -60,10 +59,10 @@ def handleGet(json):
     jsn = {}
     jsn['strt'] = start
     jsn['enx'] = end
-    tok = doc[start]
-    jsn['txt'] = tok.text  #str(foo)
+    tok = doc[start:end]
+    jsn['txt'] = tok.text 
     ants.append(jsn)
-  print('ANT', ants)  
+  print('ANTECENTS', ants)
   data.append(ants)
 
   preds = []
@@ -72,10 +71,10 @@ def handleGet(json):
     jsn = {}
     jsn['strt'] = start
     jsn['enx'] = end
-    tok = doc[start]
+    tok = doc[start:end]
     jsn['txt'] = tok.text
     preds.append(jsn)
-  print('PRD', preds)
+  print('PREDICATES', preds)
   data.append(preds)
 
   #Nouns and verbs

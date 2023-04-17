@@ -1,6 +1,6 @@
 predicates = [
   "treat", "treats", "treated", "treated by",
-  "cause", "causes", "caused", "caused by",
+   "caused by", "cause", "causes", "caused",
   "prevent", "prevents", "prevented", "prevented by",
   "predispose", "predisposes", "predisposed", "predisposed by",
   "encourage", "encourages", "encouraged", "encouraged by",
@@ -24,5 +24,6 @@ predicates = [
   "add", "adds", "added", "added by",
   "affect", "affects", "affected", "affected by",
   "aggregate", "aggregates", "aggregated", "aggregated by",
-  "believe", "believes", "believed"
+  "believe", "believes", "believed",
+  "associate", "associates", "associated", "associated with"
 ]
