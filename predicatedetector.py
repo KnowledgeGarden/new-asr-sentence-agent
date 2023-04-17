@@ -18,6 +18,10 @@ antPatterns = [nlp.make_doc(term) for term in antecedents]
 predPatterns = [nlp.make_doc(term) for term in predicates]
 antMatcher.add("prelist", antPatterns)
 predMatcher.add("predlist", predPatterns)
+conjMatcher = Matcher(nlp.vocab)
+conjMatcher.add("ConJ", [[{"POS": "CCONJ","TEXT":"and" }],
+                         [{"POS": "PUNCT", "TEXT":","}]])
+disjMatcher = Matcher(nlp.vocab)
 
 def handleGet(json):
   txt = json['text']
@@ -114,4 +118,25 @@ def handleGet(json):
     jsn['txt'] = tok.text
     vbx.append(jsn)
   #print('VRB', vbx)
-  return {'data':data, 'dbp':dbps, 'wkd':wkds, 'nns':nnx, 'pnns':pnnx, 'vrbs':vbx}
+  #conjunctions
+  conjX = conjMatcher(doc)
+  conjM = []
+
+
+  for mid, start, end in conjX:
+    tok = doc[start]
+    jsn = {}
+    jsn['strt'] = start
+    jsn['txt'] = tok.text
+    conjM.append(jsn)
+  #disjunctions
+  disjX = disjMatcher(doc)
+  disjM = []
+  for mid, start, end in disjX:
+    tok = doc[start]
+    jsn = {}
+    jsn['strt'] = start
+    jsn['txt'] = tok.text
+    disjM.append(jsn)
+  return {'data':data, 'dbp':dbps, 'wkd':wkds, 
+    'nns':nnx, 'pnns':pnnx, 'vrbs':vbx, 'conj':conjM, 'disj':disjM}
