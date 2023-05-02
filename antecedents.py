@@ -13,11 +13,19 @@ antecedents = [
   "did", "did not", "didn't", "has", "have", "has not",
   "hasn't", "haven't", "had", "had not", "hadn't",
   "can be", "could be", "may be", "might be", "will be",
+  "cannot be" "can't be",
   "could be", "could not be", "couldn't be"
   "might", "might not", "is thought to","was thought to",
   "can", "cannot", "can't", "will", "will not","won't",
   "may", "may not", "could", "could not",
   "is frequently", "are frequently", "has frequently been", "have frequently been",
-  "is frequently", "are freqnently"
+  "is frequently", "are freqnently", "is frequently thought to be ",
+  "are frequently thought to be", 
+  "has not been thought to be", "have not been thought to be",
+  "has been thought to be", "have been thought to be",
+  "is known to", "are known to", "is known to be", "are known to be",
+  "is known to have been", "are known to have been", "has been known to",
+  "have been known to", "has been", "have been", "has not been",
+  "have not been"
 ]
 

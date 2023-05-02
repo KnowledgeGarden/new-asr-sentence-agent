@@ -1,1 +1,1 @@
-uvicorn app:app
+uvicorn --port 8008 app:app

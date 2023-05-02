@@ -23,6 +23,9 @@ conjMatcher.add("ConJ", [[{"POS": "CCONJ","TEXT":"and" }],
                          [{"POS": "PUNCT", "TEXT":","}]])
 disjMatcher = Matcher(nlp.vocab)
 
+xMatcher = Matcher(nlp.vocab)
+xMatcher.add("X", [[{"POS":"NOUN"}, {"TEXT":"of"}],[{"POS":"NOUN"}, {"TEXT":"that"}], [{"POS":"NOUN"}, {"TEXT":"which"}]])
+
 def handleGet(json):
   txt = json['text']
   print(txt)
@@ -35,7 +38,7 @@ def handleGet(json):
     jsn = {}
     jsn['strt'] = ent.text 
     jsn['kid'] = ent.kb_id_
-    jsn['dbp'] = ent._.dbpedia_raw_result['@similarityScore']
+   # jsn['dbp'] = ent._.dbpedia_raw_result['@similarityScore']
     dbps.append(jsn)
 
   print('DBP', dbps)
@@ -138,5 +141,17 @@ def handleGet(json):
     jsn['strt'] = start
     jsn['txt'] = tok.text
     disjM.append(jsn)
+
+  xX = xMatcher(doc)
+  xx = []
+  for mid, start, end in xX:
+    tok = doc[start:end]
+    jsn = {}
+    jsn['strt'] = start
+    jsn['txt'] = tok.text
+    xx.append(jsn)
+  print('XXX', xx)
+
   return {'data':data, 'dbp':dbps, 'wkd':wkds, 
-    'nns':nnx, 'pnns':pnnx, 'vrbs':vbx, 'conj':conjM, 'disj':disjM}
+    'nns':nnx, 'pnns':pnnx, 'vrbs':vbx, 
+    'conj':conjM, 'disj':disjM, 'xyz':xx}
