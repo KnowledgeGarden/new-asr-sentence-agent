@@ -6,7 +6,7 @@ antecedents = [
   "has been thought to", "are thought to", "have been thought to",
   "is not thought to", "are not thought to", "aren't thought to"
   "was not thought to","wasn't thought to", "has not been thought to",
-  "have not thought to",
+  "have not thought to", "is also", "are also", "was also", "were also",
   "is", "are", "was","were", "is not", "isn't",
   "are not", "aren't","was not", "wasn't", "were not"
   "weren't",  "does", "does not", "doesn't",
@@ -26,6 +26,10 @@ antecedents = [
   "is known to", "are known to", "is known to be", "are known to be",
   "is known to have been", "are known to have been", "has been known to",
   "have been known to", "has been", "have been", "has not been",
-  "have not been"
+  "have not been", "has sometimes", "has sometimes been",
+  "have sometimes", "have sometimes been", "is sometimes",
+  "are sometimes", "is occasionally", "are occasionally",
+  "was sometimes", "were sometimes", "was occasionally",
+  "were occasionally","was frequently", "were frequently"
 ]
 
