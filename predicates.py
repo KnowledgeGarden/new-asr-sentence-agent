@@ -43,5 +43,6 @@ predicates = [
   "found to", "not find", "not found", "not found to",
   "found to", "found in", "not found in",
   "responsible for", "not responsible for", "composed of",
-  "not composed of", "describe", "describes", "described"
+  "not composed of", "describe", "describes", "described",
+  "such as"
 ]

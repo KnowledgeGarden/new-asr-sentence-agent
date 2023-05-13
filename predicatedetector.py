@@ -11,7 +11,9 @@ nlp.add_pipe('dbpedia_spotlight')
 # plus which the repo uses the wrong api URL
 #nlx = spacy.blank('en')
 #nlx.add_pipe('opentapioca')
-
+suchMatcher = Matcher(nlp.vocab)
+suchMatcher.add("suchas", [[{"POS":"NOUN"}, {"TEXT":"such"}, {"TEXT":"as"}],
+  [{"POS":"NOUN"}, {"TEXT":","}, {"TEXT":"such"}, {"TEXT":"as"}]])
 antMatcher = PhraseMatcher(nlp.vocab)
 predMatcher = PhraseMatcher(nlp.vocab)
 antPatterns = [nlp.make_doc(term) for term in antecedents]
@@ -54,7 +56,16 @@ def handleGet(json):
   #  lbl = edx.label_
   #  dsc = edx._.description
   #  wkds.append((txt, kid, lbl,dsc))
-
+  #suchas
+  suchMatches  = suchMatcher(doc)
+  suchs = []
+  for mid, start, end in suchMatches:
+    jsn = {}
+    jsn['strt'] = start
+    jsn['enx'] = end
+    tok = doc[start:end]
+    jsn['txt'] = tok.text 
+    suchs.append(jsn)
   #Predicates
   antMatches = antMatcher(doc)
   predMatches = predMatcher(doc)
@@ -154,4 +165,4 @@ def handleGet(json):
 
   return {'data':data, 'dbp':dbps, 'wkd':wkds, 
     'nns':nnx, 'pnns':pnnx, 'vrbs':vbx, 
-    'conj':conjM, 'disj':disjM, 'xyz':xx}
+    'conj':conjM, 'disj':disjM, 'noms':xx, 'suchs':suchs}
